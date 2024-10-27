@@ -11,3 +11,4 @@ venv/
 # Migrations
 **/migrations/
 
+data/
