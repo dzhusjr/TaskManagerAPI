@@ -7,13 +7,10 @@ from projects.models import Project
 from users.models import User
 from tasks.serializers import TaskSerializer
 
-class TaskPagination(PageNumberPagination):
-    page_size = 10
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    pagination_class = TaskPagination
 
     @action(detail=False, methods=['get'])
     def by_project(self, request):
