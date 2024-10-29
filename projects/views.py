@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from django.contrib.auth.models import User
 from .models import Project
 from tasks.models import Task
-from .serializers import ProjectSerializer
+from .serializers import ProjectSerializer, AddUserInputSerializer
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
@@ -12,31 +12,33 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def add_user(self, request, pk=None):
+        
+        input_serializer = AddUserInputSerializer(data=request.data)
+        if not input_serializer.is_valid():
+            return Response(input_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
             project = self.get_object()
-            email = request.data.get('email')
-
-            if not email:
-                return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
-
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-            
-            if project.filter(id=user.id).exists():
-                return Response({'error': 'User is already added to this project'}, status=status.HTTP_400_BAD_REQUEST)
-
-            if project.users.count() >= 3:
-                return Response({'error': 'This project already has 3 users'}, status=status.HTTP_400_BAD_REQUEST)
-
-            project.users.add(user)
-
-            return Response({'message': 'User added successfully to the project'}, status=status.HTTP_200_OK)
-
         except Project.DoesNotExist:
             return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        email = input_serializer.validated_data['email']
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
         
+        if project.users.filter(id=user.id).exists():
+            return Response({'error': 'User is already added to this project'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if project.users.count() >= 3:
+            return Response({'error': 'This project already has 3 users'}, status=status.HTTP_400_BAD_REQUEST)
+
+        project.users.add(user)
+
+        return Response({'message': 'User added successfully to the project'}, status=status.HTTP_200_OK)
+
     @action(detail=True, methods=['post'])
     def add_task(self, request, pk=None):
         try:
