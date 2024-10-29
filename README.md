@@ -21,6 +21,7 @@ POSTGRES_PASSWORD=<your_postgres_password>
 POSTGRES_DB=<your_postgres_db>
 SECRET_KEY=<your_django_secret_key>
 ```
+Or copy the contents of .env.example into your .env for a test run.
 
 ## Setup Instructions
 
