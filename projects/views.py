@@ -24,7 +24,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             except User.DoesNotExist:
                 return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
             
-            if user in project.users.all():
+            if project.filter(id=user.id).exists():
                 return Response({'error': 'User is already added to this project'}, status=status.HTTP_400_BAD_REQUEST)
 
             if project.users.count() >= 3:
