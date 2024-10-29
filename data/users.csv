@@ -1,0 +1,6 @@
+id,name,email,password
+1,John Doe,johndoe@example.com,password123
+2,Jane Smith,janesmith@example.com,password456
+3,Michael Johnson,michaeljohnson@example.com,password789
+4,Emily Brown,emilybrown@example.com,passwordabc
+5,David Wilson,davidwilson@example.com,passworddef
