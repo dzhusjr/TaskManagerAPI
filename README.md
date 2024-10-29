@@ -39,7 +39,7 @@ Unpack the `data.zip` file into the project root directory. This will create a `
 Make sure Docker is installed and running. Run the following command to build and run the containers:
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 This will:
