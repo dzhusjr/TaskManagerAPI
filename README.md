@@ -33,7 +33,7 @@ git clone https://github.com/dzhusjr/TaskManagerAPI.git
 cd TaskManagerAPI
 ```
 
-### 2. Unpack Data Files
+### 2. Unpack Data Files (if not already there)
 Unpack the `data.zip` file into the project root directory. This will create a `data` directory containing the CSV files (`users.csv`, `projects.csv`, and `tasks.csv`).
 
 ### 3. Set Up Docker
